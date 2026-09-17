@@ -21,4 +21,5 @@ Needs MySQL 8.0.16 or newer, because older versions ignore CHECK constraints.
 ## Group members
 
 - Cinar Akinoglu
-- (add names)
+- Ahmad Nasser
+- Mohammad Albdour
