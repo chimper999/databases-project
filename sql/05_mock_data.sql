@@ -1,32 +1,4 @@
--- =========================================================
--- Group Project: AI and entry level jobs
--- Assignment 4 - Task 5: realistic mock data
---
--- Run this AFTER 02-03_schema.sql (it depends on those tables
--- existing and being empty). Re-running 02-03_schema.sql wipes
--- everything, so re-run this file again afterwards.
---
--- Load order matches the FK dependencies: parent tables first
--- (Graduate, Employer, EntryLevelJob, AITechnology), then the
--- child tables that reference them (JobPosting, WorkplaceTraining),
--- then the many-to-many bridge tables last (Applies, Adopts,
--- Affects).
---
--- IDs are AUTO_INCREMENT, so we never write them by hand. Every
--- INSERT that needs a foreign key looks it up with a subquery on
--- a unique natural column (Email, CompanyName, JobName,
--- TechnologyName, JobTitle) instead of guessing the numeric ID.
---
--- Dates/employers/locations are deliberately spread out (not
--- flat) so GROUP BY / trend-style queries have something
--- interesting to show.
--- =========================================================
-
 USE ai_entry_jobs;
-
--- ---------------------------------------------------------
--- Parent tables
--- ---------------------------------------------------------
 
 INSERT INTO Graduate (FirstName, LastName, Email, GraduationYear, DegreeField, University) VALUES
 ('Sofia',   'Bakker',     'sofia.bakker@gmail.com',    2023, 'Computer Science',       'Maastricht University'),
@@ -68,10 +40,6 @@ INSERT INTO AITechnology (TechnologyName) VALUES
 ('Predictive Analytics'),
 ('AI Coding Assistants'),
 ('Recommendation Systems');
-
--- ---------------------------------------------------------
--- Child tables (reference parents via subquery lookups)
--- ---------------------------------------------------------
 
 INSERT INTO JobPosting
     (EmployerID, EntryLevelJobID, JobTitle, JobDescription, PostedDate, ClosingDate, MinSalary, MaxSalary, Location)
@@ -208,10 +176,6 @@ VALUES
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'Adyen'),
  (SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Large Language Models'),
  'Fraud Detection with LLMs', 'Technical Upskilling', 8, 'Online');
-
--- ---------------------------------------------------------
--- Bridge tables (many to many) - go last
--- ---------------------------------------------------------
 
 INSERT INTO Applies (GraduateID, JobPostingID) VALUES
 ((SELECT GraduateID FROM Graduate WHERE Email = 'sofia.bakker@gmail.com'),    (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Junior Data Analyst - Pricing Team')),
