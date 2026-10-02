@@ -261,3 +261,26 @@ are the same company to MySQL (`'Ørsted' = 'Orsted'` is true), but our first
 Python version did not treat them as the same, because Unicode does not split
 `Ø` into `O` + accent. We added a small table for such letters (ø, ł, đ, æ, œ)
 in `clean_transform.py`, so the cleaning step and the database now agree.
+
+---
+
+## 5. Example queries on the real data (Task 3)
+
+We ran the queries from assignment 3 (`sql/06_queries.sql`) again on the full
+database (schema → mock → real data → CRUD). All four still ran without errors,
+but two of them no longer gave useful results. Changes are marked `A4` in the
+file.
+
+| Query | Result on the real data | Expected? | Change |
+|---|---|---|---|
+| 1. High-impact AI technologies and postings per job | 778 rows, 765 of them O\*NET jobs with 0 postings | No, the jobs with postings get lost among the empty ones | `HAVING TotalPostings > 0`. 13 rows: 6 real jobs and 7 mock jobs. Jobs with 0 high-impact technologies (e.g. `Entry-Level UX Researcher`) still show up. |
+| 2. Rank employers within their size group | 9,354 rows, 9,345 employers in one `NULL` size group | No, the real employers have no size (see 1, #2), and every employer is listed | Shown as `Unknown` with `COALESCE`, and only the top 5 per group are kept. 14 rows. |
+| 3. Graduates without an AI degree applying to AI-adopting employers | 13 rows, same as before | Yes, it only uses tables that have mock data only (`Graduate`, `Applies`, `Adopts`) | None |
+| 4. Average salary for jobs with high AI impact | `PostingCount` 1,032 for `Software Developers`, but only 12 of those postings have a salary. USD and EUR averages were sorted together. | No, the count and the `HAVING >= 2` check included postings without a salary | Only postings with a salary are counted, and the query groups and sorts by `SalaryCurrency`. 11 rows: 5 in EUR, 6 in USD. |
+
+The averages in query 4 were already correct, because `AVG` skips `NULL`.
+Only the count was wrong. For real postings `AvgMinSalary = AvgMaxSalary`,
+because the source gives one average salary instead of a range (see 3.5).
+
+We also checked that the adapted queries give the same results as before on
+the mock data only (without `07_real_data.sql`).
