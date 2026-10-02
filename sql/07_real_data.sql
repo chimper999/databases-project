@@ -10,6 +10,10 @@
 
 USE ai_entry_jobs;
 
+-- The data contains non-Latin company names (e.g. Cyrillic). Without this,
+  -- a client that defaults to latin1 reads them as too long and the load fails.
+  SET NAMES utf8mb4;
+
 -- ---------------------------------------------------------
 -- AI technologies (Dataset B). "Large Language Models"
 -- already exists in the mock data, so it is only added if missing.
