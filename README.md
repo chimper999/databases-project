@@ -13,7 +13,7 @@ Everything we did so far, week by week:
 
 | Week | Activity | Where to find it |
 |---|---|---|
-| 1 | **Societal problem definition | [`docs/week1_societal_problem.pdf`](docs/week1_societal_problem.pdf) |
+| 1 | **Societal problem definition** | [`docs/week1_societal_problem.pdf`](docs/week1_societal_problem.pdf) |
 | 2 | **Data modeling:** scope, entities, relationships, keys, ERD and normalization up to 3NF. | [`docs/week2_data_modeling.pdf`](docs/week2_data_modeling.pdf), [`docs/erd.png`](docs/erd.png) |
 | 3 | **Schema definition and constraints:** MySQL tables, mock data and advanced queries. | [`sql/`](sql) (see files below) |
 | 4 | **Stakeholder video:** what the database can answer for new graduates, employers and governments, including its own limitation. | [Video below](#week-4-stakeholder-video) |
@@ -66,9 +66,8 @@ SOURCE sql/06_queries.sql;
 ```
 
 The schema file drops and recreates the `ai_entry_jobs` database, so you can always start over by running it again.
-`07_real_data.sql` adds the real world data on top of the mock data. You can skip it to work with the mock data only.
 
-Note: `04_crud.sql` should only be run once after loading the mock data. Running it a second time fails on a duplicate email. Rerun the schema and mock data first to reset.
+Note: `04_crud.sql` should only be run once after loading the mock data. Running it a second time fails if so, just rerun the schema and mock data first to reset.
 
 ## How we worked
 
