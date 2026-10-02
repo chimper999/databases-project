@@ -17,7 +17,7 @@ CREATE DATABASE ai_entry_jobs;
 USE ai_entry_jobs;
 
 -- ---------------------------------------------------------
--- Parent tables (no foreign keys, so these go first)
+-- Parent tables 
 -- ---------------------------------------------------------
 
 CREATE TABLE Graduate (
@@ -133,13 +133,7 @@ CREATE TABLE Affects (
     CHECK (ExposureScore BETWEEN 0 AND 1)
 );
 
--- ---------------------------------------------------------
--- A4 (normalization): ImpactLevel used to be a column in
--- Affects, but it is fully determined by ExposureScore
--- (key -> ExposureScore -> ImpactLevel), which breaks 3NF.
--- It is now derived in this view instead of being stored.
--- Low: score < 1/3, Medium: score < 2/3, High: otherwise.
--- ---------------------------------------------------------
+  -- A4: ImpactLevel is calculated from the score (3NF fix)
 CREATE VIEW AffectsWithLevel AS
 SELECT
     AITechnologyID,
