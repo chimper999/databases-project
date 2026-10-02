@@ -21,6 +21,7 @@ Everything we did so far, week by week:
 ### Week 4: Stakeholder video
 
 Our week 4 video for stakeholders:
+
 https://github.com/user-attachments/assets/ae2fdcba-b0b5-425b-a2fe-095c60ccb3aa
 
 ## Files
