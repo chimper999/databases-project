@@ -1,3 +1,7 @@
+
+
+https://github.com/user-attachments/assets/ae2fdcba-b0b5-425b-a2fe-095c60ccb3aa
+
 # AI and Entry Level Jobs Database
 
 Group project for the Databases course, DSAI, Maastricht University.
