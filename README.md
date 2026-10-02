@@ -1,7 +1,8 @@
 # AI and Entry Level Jobs Database
 
 Group project for the Databases course, DSAI, Maastricht University.
-A database about how AI affects entry level job opportunities for new graduates.
+
+This database stores data about how AI affects entry-level job opportunities for new graduates: which employers adopt which AI technologies, which entry-level jobs those technologies affect, which jobs are posted, and which graduates apply to them.
 
 ## Files
 
@@ -13,10 +14,30 @@ The file numbers match the task numbers from the assignment:
 - `sql/06_queries.sql` - advanced queries
 - `docs/erd.png` - ERD from assignment 2
 
-Run them in this order, since they depend on each other:
-`02-03_schema.sql`, then `05_mock_data.sql`, then `04_crud.sql` and `06_queries.sql`.
+## How to run
 
-Needs MySQL 8.0.16 or newer, because older versions ignore CHECK constraints.
+**Requirements:** MySQL 8.0.16 or newer (older versions ignore CHECK constraints).
+
+Run the files in this order. Each step depends on the previous one:
+
+```bash
+mysql -u root -p < sql/02-03_schema.sql
+mysql -u root -p < sql/05_mock_data.sql
+mysql -u root -p < sql/04_crud.sql
+mysql -u root -p < sql/06_queries.sql
+```
+
+Or from inside the MySQL shell (started from the repository root):
+
+```sql
+SOURCE sql/02-03_schema.sql;
+SOURCE sql/05_mock_data.sql;
+SOURCE sql/04_crud.sql;
+SOURCE sql/06_queries.sql;
+```
+
+The schema file drops and recreates the `ai_entry_jobs` database, so you can always start over by running it again.
+Note: `04_crud.sql` should only be run once after loading the mock data. Running it a second time fails on a duplicate email. Rerun the schema and mock data first to reset.
 
 ## Group members
 
