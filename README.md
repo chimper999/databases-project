@@ -5,7 +5,7 @@
 
 Group project for the Databases course, DSAI, Maastricht University.
 
-This database stores data about how AI affects entry-level job opportunities for new graduates: which employers adopt which AI technologies, which entry-level jobs those technologies affect, which jobs are posted, and which graduates apply to them.
+This database stores data about how AI affects entry level job opportunities for new graduates.
 
 ## Project overview
 
@@ -13,14 +13,14 @@ Everything we did so far, week by week:
 
 | Week | Activity | Where to find it |
 |---|---|---|
-| 1 | **Societal problem definition:** fewer entry-level jobs for new graduates as companies use AI. News article, challenge, stakeholders and 4 scientific articles. | [`docs/week1_societal_problem.pdf`](docs/week1_societal_problem.pdf) |
+| 1 | **Societal problem definition | [`docs/week1_societal_problem.pdf`](docs/week1_societal_problem.pdf) |
 | 2 | **Data modeling:** scope, entities, relationships, keys, ERD and normalization up to 3NF. | [`docs/week2_data_modeling.pdf`](docs/week2_data_modeling.pdf), [`docs/erd.png`](docs/erd.png) |
-| 3 | **Schema definition and constraints:** MySQL tables with keys and CHECK constraints, CRUD statements, mock data and advanced queries. | [`sql/`](sql) (see files below) |
-| 4 | **Stakeholder video:** what the database can answer for graduates, employers and governments, its limitations and future work. | [Video below](#week-4-stakeholder-video) |
+| 3 | **Schema definition and constraints:** MySQL tables, mock data and advanced queries. | [`sql/`](sql) (see files below) |
+| 4 | **Stakeholder video:** what the database can answer for new graduates, employers and governments, including its own limitation. | [Video below](#week-4-stakeholder-video) |
 
 ### Week 4: Stakeholder video
 
-Our week 4 video for stakeholders (graduates, employers and policy makers).
+Our week 4 video for stakeholders:
 https://github.com/user-attachments/assets/ae2fdcba-b0b5-425b-a2fe-095c60ccb3aa
 
 ## Files
@@ -66,7 +66,7 @@ SOURCE sql/06_queries.sql;
 ```
 
 The schema file drops and recreates the `ai_entry_jobs` database, so you can always start over by running it again.
-`07_real_data.sql` adds the real-world data (about 23,000 job postings) on top of the mock data. You can skip it to work with the mock data only.
+`07_real_data.sql` adds the real world data on top of the mock data. You can skip it to work with the mock data only.
 
 Note: `04_crud.sql` should only be run once after loading the mock data. Running it a second time fails on a duplicate email. Rerun the schema and mock data first to reset.
 
