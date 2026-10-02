@@ -50,6 +50,10 @@ The schema file drops and recreates the `ai_entry_jobs` database, so you can alw
 
 Note: `04_crud.sql` should only be run once after loading the mock data. Running it a second time fails on a duplicate email. Rerun the schema and mock data first to reset.
 
+## How we worked
+
+All commits are on `main`. We did not use separate branches or pull requests, because we did the work together during group meetings. Each change was discussed and checked by the whole group during the meeting before it was committed, so the review happened in person instead of through GitHub.
+
 ## Group members
 
 - Cinar Akinoglu
