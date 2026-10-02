@@ -1,0 +1,25 @@
+== Dataset B: GPTs are GPTs ==
+rows read: 923
+missing values per column: {'O*NET-SOC Code': 0, 'Title': 0, 'dv_rating_alpha': 0, 'dv_rating_beta': 0, 'dv_rating_gamma': 0, 'human_rating_alpha': 0, 'human_rating_beta': 0, 'human_rating_gamma': 0}
+duplicate SOC codes: 0, duplicate titles: 0
+occupations without a Job Zone: 0
+titles longer than 100 characters: 1
+kept as entry-level (Job Zone <= 4): 771
+Affects rows: 1225 ({('LLM-Powered Software', 'High'): 215, ('LLM-Powered Software', 'Low'): 287, ('LLM-Powered Software', 'Medium'): 211, ('Large Language Models', 'High'): 4, ('Large Language Models', 'Low'): 447, ('Large Language Models', 'Medium'): 61})
+== Dataset A: data_jobs ==
+rows read: 23449
+empty strings per column: {'job_location': 19, 'job_schedule_type': 369, 'job_country': 2, 'salary_rate': 22577, 'salary_year_avg': 22935, 'salary_hour_avg': 23110, 'job_skills': 4001, 'job_type_skills': 4001}
+[duplicates] exact duplicate rows removed: 2
+[naming] job_title: 104 values had extra spaces
+[naming] company_name: 25 values had extra spaces
+[naming] job_location: 37 values had extra spaces
+[naming] search_location: 0 values had extra spaces
+[naming] 'Senior ...' category on a junior title fixed: 30
+[dates] unparseable posting dates: 0
+[naming] 'Anywhere' renamed to 'Remote' (as in the mock data): 1801
+[missing] empty location filled from search_location: 19
+[missing] salary given: 853 (year 514, hour 339), rate is 'month' but no value: 19
+[missing] non-US salaries dropped (unknown currency): 199
+[naming] company spellings merged: 416 (9763 spellings -> 9347 companies)
+[duplicates] same posting on several job sites removed: 209
+final: 9347 employers, 23238 job postings, 654 with salary

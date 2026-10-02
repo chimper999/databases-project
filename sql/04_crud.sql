@@ -7,13 +7,13 @@ INSERT INTO Employer (CompanyName, CompanySize)
 VALUES ('Nexora Robotics', 'Small');
 
 INSERT INTO JobPosting
-    (EmployerID, EntryLevelJobID, JobTitle, JobDescription, PostedDate, ClosingDate, MinSalary, MaxSalary, Location)
+    (EmployerID, EntryLevelJobID, JobTitle, JobDescription, PostedDate, ClosingDate, MinSalary, MaxSalary, SalaryCurrency, Location)
 VALUES (
     (SELECT EmployerID FROM Employer WHERE CompanyName = 'Nexora Robotics'),
     (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Junior Data Analyst'),
     'Junior Data Analyst - Robotics Ops',
     'Analyze sensor data from warehouse robots.',
-    '2025-09-10', '2025-10-24', 34000.00, 41000.00, 'Eindhoven'
+    '2025-09-10', '2025-10-24', 34000.00, 41000.00, 'EUR', 'Eindhoven'
 );
 
 INSERT INTO Applies (GraduateID, JobPostingID)

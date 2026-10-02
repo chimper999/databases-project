@@ -7,6 +7,9 @@
 -- 06_queries.sql all depend on the tables created here.
 -- Run 05_mock_data.sql next, so the other two have data
 -- to work with.
+--
+-- Assignment 4 changes (marked "A4" below) were needed to
+-- load the real-world data, see docs/data_cleaning.md.
 -- =========================================================
 
 DROP DATABASE IF EXISTS ai_entry_jobs;
@@ -32,14 +35,17 @@ CREATE TABLE Graduate (
 CREATE TABLE Employer (
     EmployerID      INT             NOT NULL AUTO_INCREMENT,
     CompanyName     VARCHAR(150)    NOT NULL UNIQUE,
-    CompanySize     ENUM('Small', 'Medium', 'Large') NOT NULL,
+    CompanySize     ENUM('Small', 'Medium', 'Large'),   -- A4: NULL allowed, real data has no company size
     PRIMARY KEY (EmployerID)
 );
 
 CREATE TABLE EntryLevelJob (
     EntryLevelJobID INT             NOT NULL AUTO_INCREMENT,
-    JobName         VARCHAR(100)    NOT NULL UNIQUE,
-    PRIMARY KEY (EntryLevelJobID)
+    JobName         VARCHAR(150)    NOT NULL UNIQUE,    -- A4: was 100, longest O*NET title is 105
+    OnetSocCode     CHAR(10)        UNIQUE,             -- A4: O*NET-SOC code, empty for mock jobs
+    JobZone         TINYINT,                            -- A4: O*NET Job Zone (1-5), 5 = not entry-level
+    PRIMARY KEY (EntryLevelJobID),
+    CHECK (JobZone BETWEEN 1 AND 5)
 );
 
 CREATE TABLE AITechnology (
@@ -62,12 +68,15 @@ CREATE TABLE JobPosting (
     ClosingDate     DATE,
     MinSalary       DECIMAL(8,2),
     MaxSalary       DECIMAL(8,2),
+    SalaryCurrency  CHAR(3),                            -- A4: real data is in USD, mock data in EUR
     Location        VARCHAR(100)    NOT NULL,
     PRIMARY KEY (JobPostingID),
     FOREIGN KEY (EmployerID) REFERENCES Employer (EmployerID),
     FOREIGN KEY (EntryLevelJobID) REFERENCES EntryLevelJob (EntryLevelJobID),
+    UNIQUE (EmployerID, JobTitle, Location, PostedDate), -- A4: blocks duplicate postings
     CHECK (MaxSalary >= MinSalary),
-    CHECK (ClosingDate >= PostedDate)
+    CHECK (ClosingDate >= PostedDate),
+    CHECK (MinSalary IS NULL OR SalaryCurrency IS NOT NULL) -- A4: a salary needs a currency
 );
 
 CREATE TABLE WorkplaceTraining (
@@ -116,9 +125,11 @@ CREATE TABLE Affects (
     AITechnologyID  INT             NOT NULL,
     EntryLevelJobID INT             NOT NULL,
     ImpactLevel     ENUM('Low', 'Medium', 'High') NOT NULL,
+    ExposureScore   DECIMAL(5,4),                       -- A4: score from 0 to 1 behind ImpactLevel
     PRIMARY KEY (AITechnologyID, EntryLevelJobID),
     FOREIGN KEY (AITechnologyID) REFERENCES AITechnology (AITechnologyID)
         ON DELETE CASCADE,
     FOREIGN KEY (EntryLevelJobID) REFERENCES EntryLevelJob (EntryLevelJobID)
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+    CHECK (ExposureScore BETWEEN 0 AND 1)
 );

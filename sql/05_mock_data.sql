@@ -42,97 +42,97 @@ INSERT INTO AITechnology (TechnologyName) VALUES
 ('Recommendation Systems');
 
 INSERT INTO JobPosting
-    (EmployerID, EntryLevelJobID, JobTitle, JobDescription, PostedDate, ClosingDate, MinSalary, MaxSalary, Location)
+    (EmployerID, EntryLevelJobID, JobTitle, JobDescription, PostedDate, ClosingDate, MinSalary, MaxSalary, SalaryCurrency, Location)
 VALUES
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'Booking.com'),
  (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Junior Data Analyst'),
  'Junior Data Analyst - Pricing Team', 'Support the pricing team with dashboards and ad-hoc analysis.',
- '2025-01-15', '2025-03-01', 34000.00, 40000.00, 'Amsterdam'),
+ '2025-01-15', '2025-03-01', 34000.00, 40000.00, 'EUR', 'Amsterdam'),
 
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'Booking.com'),
  (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Graduate Software Engineer'),
  'Graduate Software Engineer - Web Platform', 'Join the platform team building booking.com core web apps.',
- '2025-03-03', '2025-04-15', 40000.00, 50000.00, 'Amsterdam'),
+ '2025-03-03', '2025-04-15', 40000.00, 50000.00, 'EUR', 'Amsterdam'),
 
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'Adyen'),
  (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'AI Support Specialist'),
  'AI Support Specialist - Merchant Risk', 'Help tune and monitor ML-based merchant risk scoring.',
- '2025-02-10', '2025-03-24', 38000.00, 46000.00, 'Amsterdam'),
+ '2025-02-10', '2025-03-24', 38000.00, 46000.00, 'EUR', 'Amsterdam'),
 
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'Adyen'),
  (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Graduate Software Engineer'),
  'Graduate Software Engineer - Payments Core', 'Work on the core payments processing engine.',
- '2025-06-05', '2025-07-20', 42000.00, 52000.00, 'Amsterdam'),
+ '2025-06-05', '2025-07-20', 42000.00, 52000.00, 'EUR', 'Amsterdam'),
 
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'Bright Cape'),
  (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Junior Data Analyst'),
  'Junior Data Analyst - Client Insights', 'Build reporting for consulting clients across industries.',
- '2025-04-02', '2025-05-15', 33000.00, 39000.00, 'Maastricht'),
+ '2025-04-02', '2025-05-15', 33000.00, 39000.00, 'EUR', 'Maastricht'),
 
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'Bright Cape'),
  (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Associate Consultant'),
  'Associate Consultant - Data Strategy', 'Advise SME clients on data and analytics strategy.',
- '2025-07-01', '2025-08-12', 36000.00, 44000.00, 'Maastricht'),
+ '2025-07-01', '2025-08-12', 36000.00, 44000.00, 'EUR', 'Maastricht'),
 
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'DataRobot Analytics BV'),
  (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'AI Support Specialist'),
  'AI Support Specialist - Internal Tools', 'Support internal teams using DataRobot''s ML platform.',
- '2025-01-20', '2025-03-05', 35000.00, 41000.00, 'Eindhoven'),
+ '2025-01-20', '2025-03-05', 35000.00, 41000.00, 'EUR', 'Eindhoven'),
 
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'DataRobot Analytics BV'),
  (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Junior Data Analyst'),
  'Junior Data Analyst - Forecasting', 'Prepare and validate data for forecasting models.',
- '2025-05-12', '2025-06-25', 34000.00, 40000.00, 'Eindhoven'),
+ '2025-05-12', '2025-06-25', 34000.00, 40000.00, 'EUR', 'Eindhoven'),
 
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'Philips'),
  (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Graduate Software Engineer'),
  'Graduate Software Engineer - Imaging Systems', 'Build software for medical imaging devices.',
- '2025-02-18', '2025-04-01', 39000.00, 48000.00, 'Eindhoven'),
+ '2025-02-18', '2025-04-01', 39000.00, 48000.00, 'EUR', 'Eindhoven'),
 
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'Philips'),
  (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Junior QA Engineer'),
  'Junior QA Engineer - Connected Devices', 'Test connected health devices before release.',
- '2025-08-04', '2025-09-18', 33000.00, 38000.00, 'Eindhoven'),
+ '2025-08-04', '2025-09-18', 33000.00, 38000.00, 'EUR', 'Eindhoven'),
 
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'Philips'),
  (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'AI Support Specialist'),
  'AI Support Specialist - Diagnostics Team', 'Support AI models used in diagnostic imaging.',
- '2025-05-22', '2025-07-05', 37000.00, 45000.00, 'Eindhoven'),
+ '2025-05-22', '2025-07-05', 37000.00, 45000.00, 'EUR', 'Eindhoven'),
 
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'Mollie'),
  (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Graduate Software Engineer'),
  'Graduate Software Engineer - Checkout Experience', 'Improve the merchant checkout experience.',
- '2025-03-14', '2025-04-28', 41000.00, 51000.00, 'Amsterdam'),
+ '2025-03-14', '2025-04-28', 41000.00, 51000.00, 'EUR', 'Amsterdam'),
 
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'Mollie'),
  (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Junior Marketing Analyst'),
  'Junior Marketing Analyst - Growth Team', 'Analyze campaign performance for the growth team.',
- '2025-06-19', '2025-08-01', 32000.00, 38000.00, 'Amsterdam'),
+ '2025-06-19', '2025-08-01', 32000.00, 38000.00, 'EUR', 'Amsterdam'),
 
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'Elastic'),
  (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Graduate Software Engineer'),
  'Graduate Software Engineer - Search Infrastructure', 'Work on distributed search infrastructure.',
- '2025-04-09', '2025-05-23', 40000.00, 49000.00, 'Remote'),
+ '2025-04-09', '2025-05-23', 40000.00, 49000.00, 'EUR', 'Remote'),
 
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'Elastic'),
  (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Junior QA Engineer'),
  'Junior QA Engineer - Cloud Platform', 'Test the managed cloud platform release pipeline.',
- '2025-07-15', '2025-08-29', 34000.00, 41000.00, 'Remote'),
+ '2025-07-15', '2025-08-29', 34000.00, 41000.00, 'EUR', 'Remote'),
 
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'FreshMind Consulting'),
  (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Associate Consultant'),
  'Associate Consultant - AI Adoption Advisory', 'Help clients plan responsible AI adoption.',
- '2025-02-25', '2025-04-10', 35000.00, 43000.00, 'Rotterdam'),
+ '2025-02-25', '2025-04-10', 35000.00, 43000.00, 'EUR', 'Rotterdam'),
 
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'FreshMind Consulting'),
  (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Entry-Level UX Researcher'),
  'Entry-Level UX Researcher - Client Experience', 'Run usability studies for consulting clients.',
- '2025-08-11', '2025-09-24', 33000.00, 40000.00, 'Rotterdam'),
+ '2025-08-11', '2025-09-24', 33000.00, 40000.00, 'EUR', 'Rotterdam'),
 
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'Booking.com'),
  (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Entry-Level UX Researcher'),
  'Entry-Level UX Researcher - Traveler App', 'Study traveler behaviour in the mobile app.',
- '2025-09-01', '2025-10-15', 32000.00, 39000.00, 'Amsterdam');
+ '2025-09-01', '2025-10-15', 32000.00, 39000.00, 'EUR', 'Amsterdam');
 
 INSERT INTO WorkplaceTraining
     (EmployerID, AITechnologyID, TrainingName, TrainingType, Duration, Format)
