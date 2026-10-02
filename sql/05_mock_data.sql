@@ -218,8 +218,7 @@ INSERT INTO Adopts (EmployerID, AITechnologyID, AdoptionDate, ImplementationType
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'FreshMind Consulting'),   (SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Robotic Process Automation'), '2023-09-05', 'Client workflow automation service line'),
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'Elastic'),                (SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Recommendation Systems'),      '2024-08-30', 'Content relevance ranking for search clients');
 
--- ImpactLevel is derived from ExposureScore (view AffectsWithLevel).
--- Made-up scores sit in the middle of each band: Low 0.1667, Medium 0.5000, High 0.8333.
+  -- Made-up scores: Low 0.1667, Medium 0.5, High 0.8333
 INSERT INTO Affects (AITechnologyID, EntryLevelJobID, ExposureScore) VALUES
 ((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Large Language Models'),      (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'AI Support Specialist'),       0.8333),
 ((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Large Language Models'),      (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Junior Marketing Analyst'),    0.5000),
