@@ -63,8 +63,8 @@ both human raters and GPT-4:
 - `gamma`: alpha plus all of the exposure to software built on top of LLMs
 
 **Schema tables it fills:** `EntryLevelJob` (occupations), `AITechnology` (LLMs
-alone and LLM-powered software), and `Affects` (the score turned into
-`ImpactLevel` Low / Medium / High).
+alone and LLM-powered software), and `Affects` (the score, which the view
+`AffectsWithLevel` turns into `ImpactLevel` Low / Medium / High).
 
 **Coverage:** 337 of the 923 occupations are in O\*NET Job Zone 1-2 ("little or
 some preparation needed", meaning entry-level), so there are well over 50

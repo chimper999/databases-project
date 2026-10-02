@@ -218,19 +218,21 @@ INSERT INTO Adopts (EmployerID, AITechnologyID, AdoptionDate, ImplementationType
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'FreshMind Consulting'),   (SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Robotic Process Automation'), '2023-09-05', 'Client workflow automation service line'),
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'Elastic'),                (SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Recommendation Systems'),      '2024-08-30', 'Content relevance ranking for search clients');
 
-INSERT INTO Affects (AITechnologyID, EntryLevelJobID, ImpactLevel) VALUES
-((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Large Language Models'),      (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'AI Support Specialist'),       'High'),
-((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Large Language Models'),      (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Junior Marketing Analyst'),    'Medium'),
-((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Large Language Models'),      (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Entry-Level UX Researcher'),   'Medium'),
-((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Computer Vision'),             (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Junior QA Engineer'),          'High'),
-((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Computer Vision'),             (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Graduate Software Engineer'),  'Low'),
-((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Robotic Process Automation'),  (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Junior Data Analyst'),         'High'),
-((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Robotic Process Automation'),  (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Associate Consultant'),        'Medium'),
-((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Predictive Analytics'),        (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Junior Data Analyst'),         'High'),
-((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Predictive Analytics'),        (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Associate Consultant'),        'High'),
-((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'AI Coding Assistants'),        (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Graduate Software Engineer'),  'High'),
-((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'AI Coding Assistants'),        (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Junior QA Engineer'),          'Medium'),
-((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'AI Coding Assistants'),        (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'AI Support Specialist'),       'Low'),
-((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Recommendation Systems'),      (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Junior Marketing Analyst'),    'High'),
-((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Recommendation Systems'),      (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Entry-Level UX Researcher'),   'Low'),
-((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Predictive Analytics'),        (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Junior Marketing Analyst'),    'Medium');
+-- ImpactLevel is derived from ExposureScore (view AffectsWithLevel).
+-- Made-up scores sit in the middle of each band: Low 0.1667, Medium 0.5000, High 0.8333.
+INSERT INTO Affects (AITechnologyID, EntryLevelJobID, ExposureScore) VALUES
+((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Large Language Models'),      (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'AI Support Specialist'),       0.8333),
+((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Large Language Models'),      (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Junior Marketing Analyst'),    0.5000),
+((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Large Language Models'),      (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Entry-Level UX Researcher'),   0.5000),
+((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Computer Vision'),             (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Junior QA Engineer'),          0.8333),
+((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Computer Vision'),             (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Graduate Software Engineer'),  0.1667),
+((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Robotic Process Automation'),  (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Junior Data Analyst'),         0.8333),
+((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Robotic Process Automation'),  (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Associate Consultant'),        0.5000),
+((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Predictive Analytics'),        (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Junior Data Analyst'),         0.8333),
+((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Predictive Analytics'),        (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Associate Consultant'),        0.8333),
+((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'AI Coding Assistants'),        (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Graduate Software Engineer'),  0.8333),
+((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'AI Coding Assistants'),        (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Junior QA Engineer'),          0.5000),
+((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'AI Coding Assistants'),        (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'AI Support Specialist'),       0.1667),
+((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Recommendation Systems'),      (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Junior Marketing Analyst'),    0.8333),
+((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Recommendation Systems'),      (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Entry-Level UX Researcher'),   0.1667),
+((SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Predictive Analytics'),        (SELECT EntryLevelJobID FROM EntryLevelJob WHERE JobName = 'Junior Marketing Analyst'),    0.5000);

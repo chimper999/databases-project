@@ -79,6 +79,7 @@ All changes are in `sql/02-03_schema.sql`, marked with `A4`.
 | `JobPosting` | New `SalaryCurrency CHAR(3)` and `CHECK (MinSalary IS NULL OR SalaryCurrency IS NOT NULL)` | #8: real salaries are `USD`, mock salaries `EUR`. A salary without a currency is rejected. |
 | `JobPosting` | New `UNIQUE (EmployerID, JobTitle, Location, PostedDate)` | #6: the database itself now blocks duplicate postings |
 | `Affects` | New `ExposureScore DECIMAL(5,4)` with `CHECK (ExposureScore BETWEEN 0 AND 1)` | #9: keeps the original score behind `ImpactLevel` |
+| `Affects` | `ImpactLevel` column removed, now derived in the view `AffectsWithLevel`; `ExposureScore` is `NOT NULL` | 3NF: `ImpactLevel` depended on `ExposureScore`, see `docs/normalization.md` |
 
 `05_mock_data.sql` and `04_crud.sql` now set `SalaryCurrency = 'EUR'` on their
 job postings, because of the new CHECK.
@@ -225,7 +226,9 @@ GPT-4 ratings) and turn two of the scores into two AI technologies:
 
 `ImpactLevel` comes from the score: **Low** below 1/3, **Medium** from 1/3 to
 2/3, **High** from 2/3. A score of 0 creates no row. The exact score is kept in
-`Affects.ExposureScore`, rounded to 4 decimal places.
+`Affects.ExposureScore`, rounded to 4 decimal places. Since the 3NF check
+(`docs/normalization.md`), only the score is stored; the view `AffectsWithLevel`
+computes `ImpactLevel` with the same rule.
 
 **Salary.** Dataset A gives one average value, not a range:
 - yearly: used directly (514 postings)

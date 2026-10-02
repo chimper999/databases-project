@@ -29,7 +29,7 @@ SELECT
     COUNT(DISTINCT CASE WHEN af.ImpactLevel = 'High' THEN af.AITechnologyID END) AS HighImpactTechCount,
     COUNT(DISTINCT jp.JobPostingID) AS TotalPostings
 FROM EntryLevelJob elj
-         LEFT JOIN Affects af ON af.EntryLevelJobID = elj.EntryLevelJobID
+         LEFT JOIN AffectsWithLevel af ON af.EntryLevelJobID = elj.EntryLevelJobID   -- A4: view, see 02-03_schema.sql
          LEFT JOIN JobPosting jp ON jp.EntryLevelJobID = elj.EntryLevelJobID
 GROUP BY elj.EntryLevelJobID, elj.JobName
 HAVING TotalPostings > 0                                   -- A4
@@ -106,7 +106,7 @@ SELECT
 FROM EntryLevelJob elj
          JOIN JobPosting jp ON jp.EntryLevelJobID = elj.EntryLevelJobID
 WHERE elj.EntryLevelJobID IN (
-    SELECT af.EntryLevelJobID FROM Affects af WHERE af.ImpactLevel = 'High'
+    SELECT af.EntryLevelJobID FROM AffectsWithLevel af WHERE af.ImpactLevel = 'High'   -- A4: view
 )
   AND jp.MinSalary IS NOT NULL                             -- A4
 GROUP BY elj.EntryLevelJobID, elj.JobName, jp.SalaryCurrency

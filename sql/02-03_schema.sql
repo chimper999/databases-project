@@ -124,8 +124,7 @@ CREATE TABLE Adopts (
 CREATE TABLE Affects (
     AITechnologyID  INT             NOT NULL,
     EntryLevelJobID INT             NOT NULL,
-    ImpactLevel     ENUM('Low', 'Medium', 'High') NOT NULL,
-    ExposureScore   DECIMAL(5,4),                       -- A4: score from 0 to 1 behind ImpactLevel
+    ExposureScore   DECIMAL(5,4)    NOT NULL,           -- A4: score from 0 to 1
     PRIMARY KEY (AITechnologyID, EntryLevelJobID),
     FOREIGN KEY (AITechnologyID) REFERENCES AITechnology (AITechnologyID)
         ON DELETE CASCADE,
@@ -133,3 +132,22 @@ CREATE TABLE Affects (
         ON DELETE CASCADE,
     CHECK (ExposureScore BETWEEN 0 AND 1)
 );
+
+-- ---------------------------------------------------------
+-- A4 (normalization): ImpactLevel used to be a column in
+-- Affects, but it is fully determined by ExposureScore
+-- (key -> ExposureScore -> ImpactLevel), which breaks 3NF.
+-- It is now derived in this view instead of being stored.
+-- Low: score < 1/3, Medium: score < 2/3, High: otherwise.
+-- ---------------------------------------------------------
+CREATE VIEW AffectsWithLevel AS
+SELECT
+    AITechnologyID,
+    EntryLevelJobID,
+    ExposureScore,
+    CASE
+        WHEN ExposureScore * 3 < 1 THEN 'Low'
+        WHEN ExposureScore * 3 < 2 THEN 'Medium'
+        ELSE 'High'
+    END AS ImpactLevel
+FROM Affects;

@@ -283,15 +283,14 @@ WHERE NOT EXISTS (SELECT 1 FROM AITechnology a WHERE a.TechnologyName = t.Techno
 CREATE TEMPORARY TABLE stg_affects (
     OnetSocCode     CHAR(10)        NOT NULL,
     TechnologyName  VARCHAR(100)    NOT NULL,
-    ImpactLevel     VARCHAR(10)     NOT NULL,
     ExposureScore   DECIMAL(5,4)    NOT NULL
 );
 
 """,
-        inserts("stg_affects", ["OnetSocCode", "TechnologyName", "ImpactLevel", "ExposureScore"], affects),
+        inserts("stg_affects", ["OnetSocCode", "TechnologyName", "ExposureScore"], affects),
         """
-INSERT INTO Affects (AITechnologyID, EntryLevelJobID, ImpactLevel, ExposureScore)
-SELECT t.AITechnologyID, j.EntryLevelJobID, s.ImpactLevel, s.ExposureScore
+INSERT INTO Affects (AITechnologyID, EntryLevelJobID, ExposureScore)
+SELECT t.AITechnologyID, j.EntryLevelJobID, s.ExposureScore
 FROM stg_affects s
          JOIN AITechnology t ON t.TechnologyName = s.TechnologyName
          JOIN EntryLevelJob j ON j.OnetSocCode = s.OnetSocCode;
