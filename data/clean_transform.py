@@ -256,8 +256,7 @@ def write_sql(jobs, affects, employers, postings):
 
 USE ai_entry_jobs;
 
--- The data contains non-Latin company names (e.g. Cyrillic). Without this,
-  -- a client that defaults to latin1 reads them as too long and the load fails.
+  -- Needed for non-English company names
   SET NAMES utf8mb4;
 
 -- ---------------------------------------------------------
