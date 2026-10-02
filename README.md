@@ -13,6 +13,9 @@ The file numbers match the task numbers from the assignment:
 - `sql/05_mock_data.sql` - mock data
 - `sql/06_queries.sql` - advanced queries
 - `docs/erd.png` - ERD from assignment 2
+- `data/SOURCES.md` - real-world data sources, publication dates and licenses (assignment 4)
+- `data/raw/` - raw dataset files (data_jobs filtered to entry-level rows, otherwise unchanged)
+- `data/download_data.py` - downloads the raw datasets again
 
 ## How to run
 
