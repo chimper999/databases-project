@@ -36,8 +36,8 @@ built to answer three questions:
 | 6 | `08_queries.sql` | `chimper999` | Does AI exposure rise or fall with how much education and training a job needs? | S2 | Tests the assumption our whole project rests on. If the least prepared jobs were the exposed ones, this would be a problem for school leavers, not graduates, and our framing would be wrong. |
 | 7 | `08_queries.sql` | `ahmadnasser731` | *to be added* | | |
 | 8 | `08_queries.sql` | `ahmadnasser731` | *to be added* | | |
-| 9 | `08_queries.sql` | `mbdour11` | *to be added* | | |
-| 10 | `08_queries.sql` | `mbdour11` | *to be added* | | |
+| 9 | `08_queries.sql` | `mbdour11` | Over 2023, did the share of entry level ads for the jobs most exposed to AI tooling go down? | S1, S2 | 2023 is the first full year of LLM tools at work. If AI replaces junior work, the most exposed jobs should make up less and less of entry level hiring. | | |
+| 10 | `08_queries.sql` | `mbdour11` | When an employer adopts an AI technology, does it train its staff on that technology? | S3 | If employers do not train staff on the AI they adopt, they expect new hires to already know it, which raises the bar for graduates. | | |
 
 Queries 1 to 4 were written by `mbdour11` for assignment 3 and adapted by the
 same author in assignment 4 when the real data was loaded (commits `f992a98`
@@ -83,7 +83,45 @@ Job Zone 1 is absent because no Job Zone 1 occupation survived the match with
 Dataset B, and Job Zone 5 was excluded as not entry level during cleaning
 (`docs/data_cleaning.md`).
 
+### Query 9: entry level hiring moved slightly away from the most exposed jobs
+
+We look at the share of ads, not the number, because how many ads were
+collected per month depends on the scraping (2,771 in January, 1,490 in May).
+
+| Month | Entry level ads | In the 4 most exposed jobs | Share |
+|---:|---:|---:|---:|
+| Jan | 2,771 | 2,477 | 89.4% |
+| Feb | 1,970 | 1,758 | 89.2% |
+| Mar | 1,852 | 1,635 | 88.3% |
+| Apr | 1,836 | 1,624 | 88.5% |
+| May | 1,490 | 1,355 | 90.9% |
+| Jun | 1,764 | 1,589 | 90.1% |
+| Jul | 1,868 | 1,638 | 87.7% |
+| Aug | 2,060 | 1,742 | 84.6% |
+| Sep | 1,875 | 1,662 | 88.6% |
+| Oct | 2,105 | 1,820 | 86.5% |
+| Nov | 2,011 | 1,723 | 85.7% |
+| Dec | 1,636 | 1,364 | 83.4% |
+
+The share was 89.3% from January to June and 86.1% from July to December,
+with December the lowest month. The ads went to Management Analysts and
+Software Developers instead, which are also exposed, but less. It is one
+year and about 3 percentage points, so it does not prove AI caused it, but
+it goes in the direction our societal problem expects.
+
+### Query 10: half of the AI adoptions come without training on that technology
+
+| Response | Adoptions |
+|---|---:|
+| Trains staff on this technology | 6 |
+| Trains staff, but not on this technology | 5 |
+| No training at all | 1 |
+
+Adopts and WorkplaceTraining are mock data (`docs/limitations.md`), so this
+shows what the database can answer, not a fact about real companies.
+
 ## How to run them
+
 
 ```bash
 mysql -u root -p < sql/02-03_schema.sql
