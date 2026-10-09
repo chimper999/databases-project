@@ -304,36 +304,142 @@ ORDER BY t.ExposureScore DESC, PctRemote DESC;
 -- =========================================================
 -- Queries 9 and 10   Author: mbdour11 (Mohammad Albdour)
 -- =========================================================
-### Query 9: entry level hiring moved slightly away from the most exposed jobs
+#-- =========================================================
+-- Queries 9 and 10   Author: mbdour11 (Mohammad Albdour)
+-- =========================================================
 
-We look at the share of ads, not the number, because how many ads were
-collected per month depends on the scraping (2,771 in January, 1,490 in May).
+-- ---------------------------------------------------------
+-- Query 9: Over 2023, did entry level hiring move away from
+-- the jobs that AI tooling can do best?
+--
+-- QUESTION
+-- For every month of 2023, count the real entry level job ads
+-- and how many of them are for the four job types that are
+-- most exposed to LLM-powered software (exposure 0.9 or
+-- higher: Business Intelligence Analysts, Data Scientists,
+-- Database Architects, Information Security Engineers).
+-- Show that share per month, the change from the month
+-- before, and the share for each half of the year.
+--
+-- WHY IT MATTERS FOR OUR SOCIETAL PROBLEM
+-- S1 asks how demand for entry level jobs changes over time.
+-- 2023 is the first full year after ChatGPT came out, so it
+-- is when employers started to use LLM tools at work. If AI
+-- replaces junior work, the ads for the most exposed jobs
+-- should make up a smaller and smaller part of entry level
+-- hiring. We look at the share and not the raw number of
+-- ads, because the number of ads collected per month depends
+-- on how the dataset was scraped (January alone has 2,771,
+-- May only 1,490), while the share is not affected by that.
+--
+-- SQL TECHNIQUE
+-- A CTE that groups by MONTH() with a conditional SUM, then
+-- three window functions on top of it: LAG() to compare each
+-- month with the month before, and SUM() OVER (PARTITION BY
+-- ...) to get the share for each half of the year next to
+-- every month without a second query.
+--
+-- WHAT WE GOT
+-- The share of ads in the most exposed jobs went down. It
+-- was 89.3% from January to June and 86.1% from July to
+-- December. The five lowest months are all in the second
+-- half, and December is the lowest at 83.4%. The ads did not
+-- disappear: what grew instead were Management Analysts and
+-- Software Developers, which are also exposed, but less.
+-- This is one year of data and a shift of about 3
+-- percentage points, so it does not prove that AI caused it,
+-- but it goes in the direction our societal problem expects.
+-- ---------------------------------------------------------
+WITH monthly AS (
+    SELECT
+        MONTH(jp.PostedDate)                                     AS PostedMonth,
+        COUNT(*)                                                 AS EntryLevelAds,
+        SUM(CASE WHEN af.ExposureScore >= 0.9 THEN 1 ELSE 0 END) AS AdsMostExposed
+    FROM JobPosting jp
+             JOIN Affects af       ON af.EntryLevelJobID = jp.EntryLevelJobID
+             JOIN AITechnology ait ON ait.AITechnologyID = af.AITechnologyID
+    WHERE ait.TechnologyName = 'LLM-Powered Software'
+      AND jp.PostedDate BETWEEN '2023-01-01' AND '2023-12-31'
+    GROUP BY MONTH(jp.PostedDate)
+)
+SELECT
+    PostedMonth,
+    EntryLevelAds,
+    AdsMostExposed,
+    ROUND(100 * AdsMostExposed / EntryLevelAds, 1)                  AS PctMostExposed,
+    ROUND(100 * AdsMostExposed / EntryLevelAds
+              - 100 * LAG(AdsMostExposed) OVER (ORDER BY PostedMonth)
+              / LAG(EntryLevelAds)  OVER (ORDER BY PostedMonth), 1) AS ChangeVsPrevMonth,
+    CASE WHEN PostedMonth <= 6 THEN 'Jan-Jun' ELSE 'Jul-Dec' END    AS HalfYear,
+    ROUND(100 * SUM(AdsMostExposed) OVER (PARTITION BY PostedMonth <= 6)
+              / SUM(EntryLevelAds)  OVER (PARTITION BY PostedMonth <= 6), 1) AS PctMostExposedHalfYear
+FROM monthly
+ORDER BY PostedMonth;
 
-| Month | Entry level ads | In the 4 most exposed jobs | Share |
-|---:|---:|---:|---:|
-| Jan | 2,771 | 2,477 | 89.4% |
-| Feb | 1,970 | 1,758 | 89.2% |
-| Mar | 1,852 | 1,635 | 88.3% |
-| Apr | 1,836 | 1,624 | 88.5% |
-| May | 1,490 | 1,355 | 90.9% |
-| Jun | 1,764 | 1,589 | 90.1% |
-| Jul | 1,868 | 1,638 | 87.7% |
-| Aug | 2,060 | 1,742 | 84.6% |
-| Sep | 1,875 | 1,662 | 88.6% |
-| Oct | 2,105 | 1,820 | 86.5% |
-| Nov | 2,011 | 1,723 | 85.7% |
-| Dec | 1,636 | 1,364 | 83.4% |
-
-From January to June, the share is 89.3%, and from July to December, its 86.1%. December is the lowest month, as the ads went to Management Analysts and Software Developers instead, which are also exposed, however less.
-Given that it is only one year and around 3% points, it’s not automatically assumed the reason is AI. Regardless, this points towards the societal problem expected.
-
-### Query 10: half of the AI adoptions come without training on that technology
-
-| Response | Adoptions |
-|---|---:|
-| Trains staff on this technology | 6 |
-| Trains staff, but not on this technology | 5 |
-| No training at all | 1 |
-
-Adopts and WorkplaceTraining are mock data (`docs/limitations.md`), so this
-shows what the database can answer, not a fact about real companies.
+-- ---------------------------------------------------------
+-- Query 10: When an employer adopts an AI technology, does
+-- it train its staff on that technology?
+--
+-- QUESTION
+-- For every AI adoption in the database, check whether the
+-- same employer offers workplace training on that same
+-- technology, only training on other topics, or no training
+-- at all, and count how many adoptions fall in each group.
+--
+-- WHY IT MATTERS FOR OUR SOCIETAL PROBLEM
+-- S3 asks how employers respond when they adopt AI. If they
+-- train their own staff on the new tool, a new graduate can
+-- still get in and learn it on the job. If they do not, the
+-- employer expects people to arrive already knowing it, so
+-- the bar for an entry level job goes up and graduates have
+-- to learn it at university or on their own first.
+--
+-- SQL TECHNIQUE
+-- A CTE with a CASE that uses two correlated EXISTS
+-- subqueries (same employer and same technology, then same
+-- employer and any technology), and COUNT(*) OVER (PARTITION
+-- BY ...) to show the size of each group on every row.
+--
+-- WHAT WE GOT
+-- Only half of the 12 adoptions (6) come with training on the
+-- adopted technology. 5 belong to employers that do train,
+-- but on something else (for example Elastic adopted Large
+-- Language Models and Mollie adopted AI Coding Assistants,
+-- but neither trains on them), and 1 (FreshMind Consulting,
+-- Robotic Process Automation) has no training at all.
+--
+-- NOTE: Adopts and WorkplaceTraining are mock data, because
+-- no open dataset covers them (docs/limitations.md). So this
+-- result shows what the database can answer, not a finding
+-- about real companies. With real data the same query would
+-- work without changes.
+-- ---------------------------------------------------------
+WITH response AS (
+    SELECT
+        e.CompanyName,
+        ait.TechnologyName AS AdoptedTechnology,
+        ad.AdoptionDate,
+        CASE
+            WHEN EXISTS (SELECT 1
+                         FROM WorkplaceTraining wt
+                         WHERE wt.EmployerID     = ad.EmployerID
+                           AND wt.AITechnologyID = ad.AITechnologyID)
+                THEN 'Trains staff on this technology'
+            WHEN EXISTS (SELECT 1
+                         FROM WorkplaceTraining wt
+                         WHERE wt.EmployerID = ad.EmployerID)
+                THEN 'Trains staff, but not on this technology'
+            ELSE 'No training at all'
+            END AS TrainingResponse
+    FROM Adopts ad
+             JOIN Employer e       ON e.EmployerID       = ad.EmployerID
+             JOIN AITechnology ait ON ait.AITechnologyID = ad.AITechnologyID
+)
+SELECT
+    CompanyName,
+    AdoptedTechnology,
+    AdoptionDate,
+    TrainingResponse,
+    COUNT(*) OVER (PARTITION BY TrainingResponse) AS AdoptionsWithThisResponse
+FROM response
+ORDER BY AdoptionsWithThisResponse DESC, CompanyName, AdoptedTechnology;
