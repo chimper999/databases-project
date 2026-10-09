@@ -304,4 +304,36 @@ ORDER BY t.ExposureScore DESC, PctRemote DESC;
 -- =========================================================
 -- Queries 9 and 10   Author: mbdour11 (Mohammad Albdour)
 -- =========================================================
--- TODO Mohammad: same as above.
+### Query 9: entry level hiring moved slightly away from the most exposed jobs
+
+We look at the share of ads, not the number, because how many ads were
+collected per month depends on the scraping (2,771 in January, 1,490 in May).
+
+| Month | Entry level ads | In the 4 most exposed jobs | Share |
+|---:|---:|---:|---:|
+| Jan | 2,771 | 2,477 | 89.4% |
+| Feb | 1,970 | 1,758 | 89.2% |
+| Mar | 1,852 | 1,635 | 88.3% |
+| Apr | 1,836 | 1,624 | 88.5% |
+| May | 1,490 | 1,355 | 90.9% |
+| Jun | 1,764 | 1,589 | 90.1% |
+| Jul | 1,868 | 1,638 | 87.7% |
+| Aug | 2,060 | 1,742 | 84.6% |
+| Sep | 1,875 | 1,662 | 88.6% |
+| Oct | 2,105 | 1,820 | 86.5% |
+| Nov | 2,011 | 1,723 | 85.7% |
+| Dec | 1,636 | 1,364 | 83.4% |
+
+From January to June, the share is 89.3%, and from July to December, its 86.1%. December is the lowest month, as the ads went to Management Analysts and Software Developers instead, which are also exposed, however less.
+Given that it is only one year and around 3% points, it’s not automatically assumed the reason is AI. Regardless, this points towards the societal problem expected.
+
+### Query 10: half of the AI adoptions come without training on that technology
+
+| Response | Adoptions |
+|---|---:|
+| Trains staff on this technology | 6 |
+| Trains staff, but not on this technology | 5 |
+| No training at all | 1 |
+
+Adopts and WorkplaceTraining are mock data (`docs/limitations.md`), so this
+shows what the database can answer, not a fact about real companies.
