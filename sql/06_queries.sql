@@ -2,8 +2,8 @@
 -- Group Project: AI and entry level jobs
 -- Assignment 3 - Task 6: advanced queries
 --
--- Run 02-03_schema.sql, then 05_mock_data.sql, then this
--- file (04_crud.sql can run before or after this one).
+-- Run 02-03_schema.sql, 05_mock_data.sql, 07_real_data.sql
+-- and 04_crud.sql first. See the README for the full order.
 --
 -- Assignment 4: queries were run again on the real-world data
 -- (07_real_data.sql) and adapted where needed. Changes are

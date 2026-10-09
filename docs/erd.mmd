@@ -1,0 +1,96 @@
+%% Entity Relationship Diagram, current schema (final assignment)
+%% Source for docs/erd.png. Render with:
+%%   mmdc -i docs/erd.mmd -o docs/erd.png -w 3400 -s 3
+%% Updated from the week 2 version: Affects.ImpactLevel was replaced by
+%% ExposureScore plus the AffectsWithLevel view (3NF fix, see
+%% docs/normalization.md), and EntryLevelJob, JobPosting gained columns
+%% for the real-world data (see docs/data_cleaning.md).
+erDiagram
+    EMPLOYER        ||--o{ JOB_POSTING        : posts
+    ENTRY_LEVEL_JOB ||--o{ JOB_POSTING        : "is advertised in"
+    EMPLOYER        ||--o{ WORKPLACE_TRAINING : provides
+    AI_TECHNOLOGY   |o--o{ WORKPLACE_TRAINING : "is taught in"
+    GRADUATE        ||--o{ APPLIES            : submits
+    JOB_POSTING     ||--o{ APPLIES            : receives
+    EMPLOYER        ||--o{ ADOPTS             : makes
+    AI_TECHNOLOGY   ||--o{ ADOPTS             : "is used in"
+    AI_TECHNOLOGY   ||--o{ AFFECTS            : causes
+    ENTRY_LEVEL_JOB ||--o{ AFFECTS            : "is part of"
+    AFFECTS         ||..|| AFFECTS_WITH_LEVEL : "read through"
+
+    GRADUATE {
+        int GraduateID PK
+        string FirstName
+        string LastName
+        string Email
+        int GraduationYear
+        string DegreeField
+        string University
+    }
+
+    EMPLOYER {
+        int EmployerID PK
+        string CompanyName UK
+        enum CompanySize "optional, real data has none"
+    }
+
+    ENTRY_LEVEL_JOB {
+        int EntryLevelJobID PK
+        string JobName UK
+        char OnetSocCode UK "optional, O*NET code"
+        tinyint JobZone "optional, 1 to 5"
+    }
+
+    AI_TECHNOLOGY {
+        int AITechnologyID PK
+        string TechnologyName UK
+    }
+
+    JOB_POSTING {
+        int JobPostingID PK
+        int EmployerID FK
+        int EntryLevelJobID FK
+        string JobTitle
+        text JobDescription "optional"
+        date PostedDate
+        date ClosingDate "optional"
+        decimal MinSalary "optional"
+        decimal MaxSalary "optional"
+        char SalaryCurrency "optional, needed if salary"
+        string Location
+    }
+
+    WORKPLACE_TRAINING {
+        int TrainingID PK
+        int EmployerID FK
+        int AITechnologyID FK "optional"
+        string TrainingName
+        string TrainingType
+        int Duration "hours"
+        enum Format
+    }
+
+    APPLIES {
+        int GraduateID PK, FK
+        int JobPostingID PK, FK
+    }
+
+    ADOPTS {
+        int EmployerID PK, FK
+        int AITechnologyID PK, FK
+        date AdoptionDate
+        string ImplementationType
+    }
+
+    AFFECTS {
+        int AITechnologyID PK, FK
+        int EntryLevelJobID PK, FK
+        decimal ExposureScore "0 to 1"
+    }
+
+    AFFECTS_WITH_LEVEL {
+        int AITechnologyID "VIEW, not a table"
+        int EntryLevelJobID
+        decimal ExposureScore
+        string ImpactLevel "calculated from the score"
+    }

@@ -1,18 +1,36 @@
+-- =========================================================
+-- Group Project: AI and entry level jobs
+-- Assignment 3 - Task 5: mock data
+--
+-- Run after 02-03_schema.sql. 04_crud.sql and 06_queries.sql
+-- both need the rows created here.
+--
+-- NO PERSONAL DATA
+-- Every person, company, training course and application in
+-- this file is invented by us. The Graduate rows are not real
+-- people: the names are made up and the e-mail addresses all
+-- use the domain example.com, which RFC 2606 reserves for
+-- documentation so that it can never belong to anyone.
+-- Graduate, Applies, Adopts and WorkplaceTraining stay
+-- invented, because no open data source covers them
+-- (see docs/limitations.md).
+-- =========================================================
+
 USE ai_entry_jobs;
 
 INSERT INTO Graduate (FirstName, LastName, Email, GraduationYear, DegreeField, University) VALUES
-('Sofia',   'Bakker',     'sofia.bakker@gmail.com',    2023, 'Computer Science',       'Maastricht University'),
-('Liam',    'de Vries',   'liam.devries@gmail.com',    2024, 'Data Science & AI',      'Maastricht University'),
-('Noor',    'El Amrani',  'noor.elamrani@gmail.com',   2022, 'Business Analytics',     'Tilburg University'),
-('Finn',    'Jansen',     'finn.jansen@gmail.com',     2023, 'Artificial Intelligence','Utrecht University'),
-('Mia',     'Petrova',    'mia.petrova@gmail.com',     2024, 'Computer Science',       'VU Amsterdam'),
-('Daan',    'Visser',     'daan.visser@gmail.com',     2023, 'Information Science',    'Maastricht University'),
-('Elena',   'Rossi',      'elena.rossi@gmail.com',     2022, 'Marketing',              'Erasmus University Rotterdam'),
-('Youssef', 'Haddad',     'youssef.haddad@gmail.com',  2024, 'Data Science & AI',      'Maastricht University'),
-('Anna',    'Kowalski',   'anna.kowalski@gmail.com',   2023, 'Computer Science',       'TU Delft'),
-('Lucas',   'Silva',      'lucas.silva@gmail.com',     2025, 'Business Analytics',     'Maastricht University'),
-('Zoe',     'Mulder',     'zoe.mulder@gmail.com',      2022, 'Communication Science',  'Radboud University'),
-('Ravi',    'Patel',      'ravi.patel@gmail.com',      2024, 'Artificial Intelligence','Maastricht University');
+('Sofia',   'Bakker',     'sofia.bakker@example.com',    2023, 'Computer Science',       'Maastricht University'),
+('Liam',    'de Vries',   'liam.devries@example.com',    2024, 'Data Science & AI',      'Maastricht University'),
+('Noor',    'El Amrani',  'noor.elamrani@example.com',   2022, 'Business Analytics',     'Tilburg University'),
+('Finn',    'Jansen',     'finn.jansen@example.com',     2023, 'Artificial Intelligence','Utrecht University'),
+('Mia',     'Petrova',    'mia.petrova@example.com',     2024, 'Computer Science',       'VU Amsterdam'),
+('Daan',    'Visser',     'daan.visser@example.com',     2023, 'Information Science',    'Maastricht University'),
+('Elena',   'Rossi',      'elena.rossi@example.com',     2022, 'Marketing',              'Erasmus University Rotterdam'),
+('Youssef', 'Haddad',     'youssef.haddad@example.com',  2024, 'Data Science & AI',      'Maastricht University'),
+('Anna',    'Kowalski',   'anna.kowalski@example.com',   2023, 'Computer Science',       'TU Delft'),
+('Lucas',   'Silva',      'lucas.silva@example.com',     2025, 'Business Analytics',     'Maastricht University'),
+('Zoe',     'Mulder',     'zoe.mulder@example.com',      2022, 'Communication Science',  'Radboud University'),
+('Ravi',    'Patel',      'ravi.patel@example.com',      2024, 'Artificial Intelligence','Maastricht University');
 
 INSERT INTO Employer (CompanyName, CompanySize) VALUES
 ('Booking.com',              'Large'),
@@ -178,31 +196,31 @@ VALUES
  'Fraud Detection with LLMs', 'Technical Upskilling', 8, 'Online');
 
 INSERT INTO Applies (GraduateID, JobPostingID) VALUES
-((SELECT GraduateID FROM Graduate WHERE Email = 'sofia.bakker@gmail.com'),    (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Junior Data Analyst - Pricing Team')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'sofia.bakker@gmail.com'),    (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Graduate Software Engineer - Web Platform')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'sofia.bakker@gmail.com'),    (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Junior QA Engineer - Connected Devices')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'liam.devries@gmail.com'),    (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'AI Support Specialist - Merchant Risk')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'liam.devries@gmail.com'),    (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'AI Support Specialist - Internal Tools')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'noor.elamrani@gmail.com'),   (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Junior Data Analyst - Client Insights')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'noor.elamrani@gmail.com'),   (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Associate Consultant - Data Strategy')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'finn.jansen@gmail.com'),     (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'AI Support Specialist - Diagnostics Team')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'finn.jansen@gmail.com'),     (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Graduate Software Engineer - Imaging Systems')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'mia.petrova@gmail.com'),     (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Graduate Software Engineer - Payments Core')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'mia.petrova@gmail.com'),     (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Graduate Software Engineer - Checkout Experience')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'daan.visser@gmail.com'),     (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Junior QA Engineer - Connected Devices')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'daan.visser@gmail.com'),     (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Junior QA Engineer - Cloud Platform')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'elena.rossi@gmail.com'),     (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Junior Marketing Analyst - Growth Team')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'elena.rossi@gmail.com'),     (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Entry-Level UX Researcher - Client Experience')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'youssef.haddad@gmail.com'),  (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Junior Data Analyst - Forecasting')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'youssef.haddad@gmail.com'),  (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'AI Support Specialist - Internal Tools')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'anna.kowalski@gmail.com'),   (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Graduate Software Engineer - Search Infrastructure')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'anna.kowalski@gmail.com'),   (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Junior QA Engineer - Cloud Platform')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'lucas.silva@gmail.com'),     (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Associate Consultant - AI Adoption Advisory')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'lucas.silva@gmail.com'),     (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Junior Data Analyst - Forecasting')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'zoe.mulder@gmail.com'),      (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Entry-Level UX Researcher - Traveler App')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'zoe.mulder@gmail.com'),      (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Entry-Level UX Researcher - Client Experience')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'ravi.patel@gmail.com'),      (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'AI Support Specialist - Merchant Risk')),
-((SELECT GraduateID FROM Graduate WHERE Email = 'ravi.patel@gmail.com'),      (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Graduate Software Engineer - Imaging Systems'));
+((SELECT GraduateID FROM Graduate WHERE Email = 'sofia.bakker@example.com'),    (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Junior Data Analyst - Pricing Team')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'sofia.bakker@example.com'),    (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Graduate Software Engineer - Web Platform')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'sofia.bakker@example.com'),    (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Junior QA Engineer - Connected Devices')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'liam.devries@example.com'),    (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'AI Support Specialist - Merchant Risk')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'liam.devries@example.com'),    (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'AI Support Specialist - Internal Tools')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'noor.elamrani@example.com'),   (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Junior Data Analyst - Client Insights')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'noor.elamrani@example.com'),   (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Associate Consultant - Data Strategy')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'finn.jansen@example.com'),     (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'AI Support Specialist - Diagnostics Team')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'finn.jansen@example.com'),     (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Graduate Software Engineer - Imaging Systems')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'mia.petrova@example.com'),     (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Graduate Software Engineer - Payments Core')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'mia.petrova@example.com'),     (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Graduate Software Engineer - Checkout Experience')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'daan.visser@example.com'),     (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Junior QA Engineer - Connected Devices')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'daan.visser@example.com'),     (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Junior QA Engineer - Cloud Platform')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'elena.rossi@example.com'),     (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Junior Marketing Analyst - Growth Team')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'elena.rossi@example.com'),     (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Entry-Level UX Researcher - Client Experience')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'youssef.haddad@example.com'),  (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Junior Data Analyst - Forecasting')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'youssef.haddad@example.com'),  (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'AI Support Specialist - Internal Tools')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'anna.kowalski@example.com'),   (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Graduate Software Engineer - Search Infrastructure')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'anna.kowalski@example.com'),   (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Junior QA Engineer - Cloud Platform')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'lucas.silva@example.com'),     (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Associate Consultant - AI Adoption Advisory')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'lucas.silva@example.com'),     (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Junior Data Analyst - Forecasting')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'zoe.mulder@example.com'),      (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Entry-Level UX Researcher - Traveler App')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'zoe.mulder@example.com'),      (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Entry-Level UX Researcher - Client Experience')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'ravi.patel@example.com'),      (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'AI Support Specialist - Merchant Risk')),
+((SELECT GraduateID FROM Graduate WHERE Email = 'ravi.patel@example.com'),      (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Graduate Software Engineer - Imaging Systems'));
 
 INSERT INTO Adopts (EmployerID, AITechnologyID, AdoptionDate, ImplementationType) VALUES
 ((SELECT EmployerID FROM Employer WHERE CompanyName = 'Booking.com'),            (SELECT AITechnologyID FROM AITechnology WHERE TechnologyName = 'Large Language Models'),      '2024-09-01', 'In-house LLM-powered customer support chatbot'),

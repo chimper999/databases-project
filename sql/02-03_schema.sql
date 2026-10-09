@@ -3,17 +3,29 @@
 -- Assignment 3 - Task 2 and 3: relational schema and
 -- schema implementation (MySQL 8)
 --
--- Run this file first. 04_crud.sql, 05_mock_data.sql and
--- 06_queries.sql all depend on the tables created here.
--- Run 05_mock_data.sql next, so the other two have data
--- to work with.
+-- Run this file first, then the others in this order:
+--   05_mock_data.sql    the invented rows
+--   07_real_data.sql    the real-world rows
+--   04_crud.sql         insert / update / delete examples
+--   06_queries.sql      queries from assignment 3
+--   08_queries.sql      queries from the final assignment
 --
 -- Assignment 4 changes (marked "A4" below) were needed to
 -- load the real-world data, see docs/data_cleaning.md.
 -- =========================================================
 
 DROP DATABASE IF EXISTS ai_entry_jobs;
-CREATE DATABASE ai_entry_jobs;
+
+-- A4/final: the character set is declared here instead of left to the
+-- server default. The real data has company names and locations in
+-- Chinese, Hungarian, Portuguese and other scripts (419 employers,
+-- 1,103 locations, 718 job titles). MySQL 8 happens to default to
+-- utf8mb4, but an older or differently configured server defaults to
+-- latin1 and would store those names as question marks. Declaring it
+-- makes the load give the same result on any server.
+CREATE DATABASE ai_entry_jobs
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
 USE ai_entry_jobs;
 
 -- ---------------------------------------------------------

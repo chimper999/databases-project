@@ -1,7 +1,7 @@
 USE ai_entry_jobs;
 
 INSERT INTO Graduate (FirstName, LastName, Email, GraduationYear, DegreeField, University)
-VALUES ('Julia', 'Novak', 'julia.novak@gmail.com', 2025, 'Data Science & AI', 'Maastricht University');
+VALUES ('Julia', 'Novak', 'julia.novak@example.com', 2025, 'Data Science & AI', 'Maastricht University');
 
 INSERT INTO Employer (CompanyName, CompanySize)
 VALUES ('Nexora Robotics', 'Small');
@@ -18,7 +18,7 @@ VALUES (
 
 INSERT INTO Applies (GraduateID, JobPostingID)
 VALUES (
-    (SELECT GraduateID FROM Graduate WHERE Email = 'julia.novak@gmail.com'),
+    (SELECT GraduateID FROM Graduate WHERE Email = 'julia.novak@example.com'),
     (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Junior Data Analyst - Robotics Ops')
 );
 
@@ -32,10 +32,10 @@ WHERE CompanyName = 'Mollie';
 
 UPDATE Graduate
 SET DegreeField = 'Artificial Intelligence'
-WHERE Email = 'julia.novak@gmail.com';
+WHERE Email = 'julia.novak@example.com';
 
 DELETE FROM Applies
-WHERE GraduateID = (SELECT GraduateID FROM Graduate WHERE Email = 'zoe.mulder@gmail.com')
+WHERE GraduateID = (SELECT GraduateID FROM Graduate WHERE Email = 'zoe.mulder@example.com')
   AND JobPostingID = (SELECT JobPostingID FROM JobPosting WHERE JobTitle = 'Entry-Level UX Researcher - Traveler App');
 
 DELETE FROM WorkplaceTraining
