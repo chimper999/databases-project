@@ -102,8 +102,8 @@ The one exception is the phone number pattern, which is deliberately wide. Its
 60 hits were all checked by hand and are salary figures, job requisition
 numbers and year ranges, never phone numbers.
 
-<!-- TODO (ahmadnasser731): add the Zenodo DOI and the dataset licence here -->
-
+   The full database is published on Zenodo: https://doi.org/10.5281/zenodo.23270927
+   Dataset licence: CC BY 4.0. Upstream sources keep their own licences, see data/SOURCES.md.
 ## How we worked
 
 All commits are on `main`. We did not use separate branches or pull requests, because we did the work together during group meetings. Each change was discussed and checked by the whole group during the meeting before it was committed, so the review happened in person instead of through GitHub.
