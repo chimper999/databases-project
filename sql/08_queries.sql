@@ -224,6 +224,83 @@ FROM paid p
          JOIN EntryLevelJob elj ON elj.EntryLevelJobID = p.EntryLevelJobID
 GROUP BY elj.EntryLevelJobID, elj.JobName, t.ExposureScore
 ORDER BY t.ExposureScore DESC, AvgSalaryUSD DESC;
+-- ---------------------------------------------------------
+-- Query 8: Are the entry level jobs most exposed to AI
+-- tooling more often fully remote?
+--
+-- QUESTION
+-- For every job type with real entry level ads, count how
+-- many of its ads are fully remote, split the job types into
+-- the most exposed (0.9 or higher, the same cut-off as query
+-- 9) and the rest, and show the remote share for each job
+-- type and for each of the two groups.
+--
+-- WHY IT MATTERS FOR OUR SOCIETAL PROBLEM
+-- A job that can be done fully remote is a job done entirely
+-- on a computer, which is exactly the kind of work AI tooling
+-- can reach. A remote ad is also open to applicants from
+-- anywhere, so a new graduate competes with far more people
+-- for it. If the most exposed jobs are also the most remote,
+-- graduates in those fields are squeezed from two sides at
+-- once: by AI and by a wider pool of applicants.
+--
+-- SQL TECHNIQUE
+-- Two CTEs, conditional aggregation to count remote ads, a
+-- CASE label for the exposure group, SUM() OVER (PARTITION BY
+-- ...) to show each group's share on every row without a
+-- second query, and RANK().
+--
+-- WHY Location = 'Remote' EXACTLY
+-- The source writes fully remote jobs as 'Remote'. There are
+-- also 7 ads in 'Remote, OR', which is a town in Oregon, not
+-- a remote job, so LIKE 'Remote%' would count them wrongly.
+--
+-- WHAT WE GOT
+-- Yes. In the four most exposed job types, 8.2% of ads are
+-- fully remote, against 4.3% in the two less exposed ones,
+-- almost twice as many. Database Architects (9.3%) and
+-- Business Intelligence Analysts (8.3%) are the most remote.
+-- The exception is Information Security Engineers, which is
+-- among the most exposed but only 2.0% remote, probably
+-- because security work often needs access to the office
+-- network. Remote jobs are still a small part of all entry
+-- level ads, but they are concentrated where AI exposure is
+-- highest.
+-- ---------------------------------------------------------
+WITH remote AS (
+    -- Entry level ads and fully remote ads per job type
+    SELECT
+        jp.EntryLevelJobID,
+        COUNT(*)                                                AS EntryLevelAds,
+        SUM(CASE WHEN jp.Location = 'Remote' THEN 1 ELSE 0 END) AS RemoteAds
+    FROM JobPosting jp
+    GROUP BY jp.EntryLevelJobID
+),
+tooling AS (
+    -- Exposure of each job type to LLM-powered software
+    SELECT
+        af.EntryLevelJobID,
+        af.ExposureScore
+    FROM Affects af
+             JOIN AITechnology ai ON ai.AITechnologyID = af.AITechnologyID
+    WHERE ai.TechnologyName = 'LLM-Powered Software'
+)
+SELECT
+    elj.JobName,
+    ROUND(t.ExposureScore, 2)                     AS ExpWithTooling,
+    CASE WHEN t.ExposureScore >= 0.9 THEN 'Most exposed (0.9+)'
+         ELSE 'Less exposed'
+    END                                           AS ExposureGroup,
+    r.EntryLevelAds,
+    r.RemoteAds,
+    ROUND(100 * r.RemoteAds / r.EntryLevelAds, 1) AS PctRemote,
+    ROUND(100 * SUM(r.RemoteAds)     OVER (PARTITION BY t.ExposureScore >= 0.9)
+              / SUM(r.EntryLevelAds) OVER (PARTITION BY t.ExposureScore >= 0.9), 1) AS PctRemoteInGroup,
+    RANK() OVER (ORDER BY r.RemoteAds / r.EntryLevelAds DESC) AS RemoteRank
+FROM remote r
+         JOIN tooling t         ON t.EntryLevelJobID   = r.EntryLevelJobID
+         JOIN EntryLevelJob elj ON elj.EntryLevelJobID = r.EntryLevelJobID
+ORDER BY t.ExposureScore DESC, PctRemote DESC;
 -- =========================================================
 -- Queries 9 and 10   Author: mbdour11 (Mohammad Albdour)
 -- =========================================================
