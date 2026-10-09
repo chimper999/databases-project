@@ -139,21 +139,91 @@ FROM scored s
 GROUP BY s.JobZone
 ORDER BY s.JobZone;
 
+
 -- =========================================================
 -- Queries 7 and 8      Author: ahmadnasser731 (Ahmad Nasser)
 -- =========================================================
--- TODO Ahmad: add your two SELECT queries below, using the
--- same comment block as queries 5 and 6:
---   QUESTION                        what it answers
---   WHY IT MATTERS FOR OUR SOCIETAL PROBLEM
---   SQL TECHNIQUE                   what you used
---   WHAT WE GOT                     the result you saw
--- Then add two rows to the table in docs/queries.md.
---
--- Ideas nobody has used yet: the 654 postings that have a
--- salary, the Location column, the 2023 posting dates
--- (monthly trend), or WorkplaceTraining versus Adopts.
 
+-- ---------------------------------------------------------
+-- Query 7: Do the entry level jobs that AI tooling can do
+-- best pay new graduates less?
+--
+-- QUESTION
+-- For every job type that has real entry level ads with a
+-- salary, show its exposure to LLM-powered software next to
+-- the average advertised salary, how far that salary is above
+-- or below the average of all these ads, and rank the job
+-- types once by exposure and once by salary.
+--
+-- WHY IT MATTERS FOR OUR SOCIETAL PROBLEM
+-- S2 asks which entry level jobs AI affects most. If employers
+-- expect AI tooling to take over junior work, they have no
+-- reason pay highly of it, so the jobs that have high AI exposure
+-- will have a bad pay. If that is true, a graduate who goes into
+-- an exposed job is has a low chance of getting higher and
+-- his pay will be lower, which makes a very concerning problem. If it is not
+-- true, the pressure from AI is not visible in pay yet.
+--
+-- SQL TECHNIQUE
+-- Two CTEs, a window function over an aggregate
+-- (SUM(SUM(...)) OVER () / SUM(COUNT(*)) OVER ()) for the
+-- average over all ads rather than over job types, and two
+-- RANK() functions with different orderings in one query.
+--
+-- WHY ONLY USD
+-- Real salaries are in USD and mock salaries in EUR, and the
+-- source only gives salaries for US postings
+-- (docs/data_cleaning.md), so mixing them would compare two
+-- currencies. Every real salary is one yearly figure, so
+-- MinSalary and MaxSalary are the same and MinSalary is used.
+--
+-- WHAT WE GOT
+-- No: salary does not follow exposure. The average over all
+-- 654 ads is $75,528. Business Intelligence Analysts and Data
+-- Scientists have the same exposure (0.94), but Data
+-- Scientists earn $88,757 and BI Analysts $63,670, a gap of
+-- $25,000. The best paid job type, Software Developers
+-- ($94,177), is one of the least exposed, but the second best
+-- paid, Database Architects ($91,183), is the most exposed.
+-- So pay depends on the kind of work (technical versus
+-- analyst), not on how exposed it is. The pressure from AI
+-- does not show up in salaries in 2023.
+-- Only 654 of the 23,256 ads (2.8%) have a salary, all from
+-- the US, and Information Security Engineers has only 2, so
+-- this is a very small sample.
+-- ---------------------------------------------------------
+WITH paid AS (
+    -- Real entry level ads that state a salary
+    SELECT
+        jp.EntryLevelJobID,
+        jp.MinSalary AS SalaryUSD
+    FROM JobPosting jp
+    WHERE jp.SalaryCurrency = 'USD'
+      AND jp.MinSalary IS NOT NULL
+),
+tooling AS (
+    -- Exposure of each job type to LLM-powered software
+    SELECT
+        af.EntryLevelJobID,
+        af.ExposureScore
+    FROM Affects af
+             JOIN AITechnology ai ON ai.AITechnologyID = af.AITechnologyID
+    WHERE ai.TechnologyName = 'LLM-Powered Software'
+)
+SELECT
+    elj.JobName,
+    ROUND(t.ExposureScore, 2)                    AS ExpWithTooling,
+    COUNT(*)                                     AS AdsWithSalary,
+    ROUND(AVG(p.SalaryUSD))                      AS AvgSalaryUSD,
+    ROUND(AVG(p.SalaryUSD)
+          - SUM(SUM(p.SalaryUSD)) OVER () / SUM(COUNT(*)) OVER ()) AS VsAllAdsUSD,
+    RANK() OVER (ORDER BY t.ExposureScore DESC)  AS ExposureRank,
+    RANK() OVER (ORDER BY AVG(p.SalaryUSD) DESC) AS SalaryRank
+FROM paid p
+         JOIN tooling t         ON t.EntryLevelJobID   = p.EntryLevelJobID
+         JOIN EntryLevelJob elj ON elj.EntryLevelJobID = p.EntryLevelJobID
+GROUP BY elj.EntryLevelJobID, elj.JobName, t.ExposureScore
+ORDER BY t.ExposureScore DESC, AvgSalaryUSD DESC;
 -- =========================================================
 -- Queries 9 and 10   Author: mbdour11 (Mohammad Albdour)
 -- =========================================================
