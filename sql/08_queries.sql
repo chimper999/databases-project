@@ -304,9 +304,6 @@ ORDER BY t.ExposureScore DESC, PctRemote DESC;
 -- =========================================================
 -- Queries 9 and 10   Author: mbdour11 (Mohammad Albdour)
 -- =========================================================
-#-- =========================================================
--- Queries 9 and 10   Author: mbdour11 (Mohammad Albdour)
--- =========================================================
 
 -- ---------------------------------------------------------
 -- Query 9: Over 2023, did entry level hiring move away from
@@ -352,16 +349,16 @@ ORDER BY t.ExposureScore DESC, PctRemote DESC;
 -- ---------------------------------------------------------
 WITH monthly AS (
     SELECT
-        MONTH(jp.PostedDate)                                     AS PostedMonth,
-        COUNT(*)                                                 AS EntryLevelAds,
-        SUM(CASE WHEN af.ExposureScore >= 0.9 THEN 1 ELSE 0 END) AS AdsMostExposed
-    FROM JobPosting jp
-             JOIN Affects af       ON af.EntryLevelJobID = jp.EntryLevelJobID
-             JOIN AITechnology ait ON ait.AITechnologyID = af.AITechnologyID
-    WHERE ait.TechnologyName = 'LLM-Powered Software'
-      AND jp.PostedDate BETWEEN '2023-01-01' AND '2023-12-31'
-    GROUP BY MONTH(jp.PostedDate)
-)
+    MONTH(jp.PostedDate)                                     AS PostedMonth,
+    COUNT(*)                                                 AS EntryLevelAds,
+    SUM(CASE WHEN af.ExposureScore >= 0.9 THEN 1 ELSE 0 END) AS AdsMostExposed
+FROM JobPosting jp
+    JOIN Affects af       ON af.EntryLevelJobID = jp.EntryLevelJobID
+    JOIN AITechnology ait ON ait.AITechnologyID = af.AITechnologyID
+WHERE ait.TechnologyName = 'LLM-Powered Software'
+  AND jp.PostedDate BETWEEN '2023-01-01' AND '2023-12-31'
+GROUP BY MONTH(jp.PostedDate)
+    )
 SELECT
     PostedMonth,
     EntryLevelAds,
